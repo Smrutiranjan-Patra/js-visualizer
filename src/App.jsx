@@ -29,15 +29,9 @@ function App() {
           </div>
         </div>
         <div className="right-container">
-          <div className='call-stack'>
-            <CallStack />
-          </div>
-          <div className="micro-task-queue">
-            <Queue type="micro" title="Microtask Queue" />
-          </div>
-          <div className='task-queue'>
-            <Queue type="macro" title="Task Queue" />
-          </div>
+          <CallStack />
+          <Queue type="micro" title="Microtask Queue" />
+          <Queue type="macro" title="Task Queue" />
         </div>
       </div>
     </div>
