@@ -15,7 +15,7 @@ const runSimulation = (set, get) => {
     });
 }
 
-const step = () => {
+const step = (set, get) => {
     const { callStack, microtaskQueue, taskQueue, webApi, addLog } = get();
 
     // 1. Process Call Stack (LIFO)
