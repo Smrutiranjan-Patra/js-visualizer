@@ -23,7 +23,6 @@ const CallStack = () => {
                     </motion.div>
                 ))}
             </AnimatePresence>
-            {callStack.length === 0 && <div className="empty-label">Empty Stack</div>}
         </div>
     );
 };
