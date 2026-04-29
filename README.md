@@ -44,6 +44,7 @@ A full-blown Monaco integration. Syntax highlighting, error detection, and smoot
 1.  **Clone it:** `git clone ...`
 2.  **Ignite it:** `npm install && npm run dev`
 3.  **Break it:** Paste some gnarly nested `Promises` and `setTimeouts` to see who wins.
+4.  **Visit it:** Check out the live demo at https://jsvisualizerv2.netlify.app/
 
 ## 💡 The Philosophy
 This tool was built to bridge the gap between **writing code** and **understanding execution**. Perfect for interview prep, teaching, or just satisfying your curiosity about why JS works the way it does.
