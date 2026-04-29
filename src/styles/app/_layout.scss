@@ -1,0 +1,70 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* LEFT COLUMN: THE SOURCE */
+.left-container {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.code-editor {
+  flex: 2;
+  background: #1e1e1e;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.output-div {
+  flex: 1;
+  background: #000;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+  color: #4ade80;
+}
+
+.console-header {
+  background: #111;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.console-body {
+  padding: 10px 14px;
+}
+
+/* RIGHT COLUMN: THE ENGINE */
+.right-container {
+  flex: 3;
+  display: grid;
+  grid-template-areas:
+    "engine"
+    "stack"
+    "micro"
+    "macro";
+  grid-template-rows: auto 2fr 1fr 1fr;
+  gap: 20px;
+}
