@@ -12,7 +12,7 @@ const CodeEditor = () => {
 
     return (
         <Editor
-            height="500px"
+            height="580px"
             defaultLanguage="javascript"
             theme="vs-dark"
             defaultValue={``}

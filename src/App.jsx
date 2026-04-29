@@ -7,6 +7,9 @@ import './styles/App.css';
 import Header from './components/Header.jsx';
 import CodeEditor from "./components/Editor.jsx"
 import Console from './components/Console.jsx';
+import CallStack from './components/CallStack.jsx';
+import Queue from './components/Queue.jsx';
+import EngineBridge from './components/EngineBridge.jsx';
 
 import useStore from './store/useStore';
 
@@ -27,9 +30,10 @@ function App() {
           </div>
         </div>
         <div className="right-container">
-          <div className='call-stack'> Call Stack</div>
-          <div className="micro-task-queue"> Mirco Stack Queue</div>
-          <div className='task-queue'> Task Queue </div>
+          <CallStack />
+          <EngineBridge />
+          <Queue type="micro" title="Microtask Queue" />
+          <Queue type="macro" title="Task Queue" />
         </div>
       </div>
     </div>
