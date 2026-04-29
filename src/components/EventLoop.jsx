@@ -10,7 +10,7 @@ const EventLoop = () => {
         <div className="event-loop-visual">
             <motion.div
                 animate={{ rotate: isExecuting ? 360 : 0 }}
-                transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+                transition={isExecuting ? { repeat: Infinity, duration: 3, ease: "linear" } : {}}
                 className="loop-icon-wrapper"
             >
                 <SyncOutlined style={{ fontSize: '40px', color: 'var(--color-primary)' }} />
