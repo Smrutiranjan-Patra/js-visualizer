@@ -107,10 +107,11 @@
     /* Takes up 60% of space */
     display: grid;
     grid-template-areas:
+        "engine"
         "stack"
         "micro"
         "macro";
-    grid-template-rows: 2fr 1fr 1fr;
+    grid-template-rows: auto 2fr 1fr 1fr;
     gap: 20px;
 }
 
@@ -121,6 +122,7 @@
     margin: 10px 0;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    grid-area: engine;
 }
 
 .bridge-header {
@@ -152,7 +154,7 @@
 .bridge-content {
     display: flex;
     padding: 12px;
-    align-items: center;
+    align-items: stretch;
     gap: 12px;
     min-height: 100px;
 }

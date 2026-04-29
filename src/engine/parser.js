@@ -9,35 +9,43 @@ export const parseCodeToTasks = (code) => {
         ast.body.forEach((node) => {
             if (node.type === 'ExpressionStatement' && node.expression.type === 'CallExpression') {
                 const callee = node.expression.callee;
+                const calleePropertyName = callee.property?.name;
+                const calleeName = callee.name;
 
-                // Detect console.log
-                if (callee.object?.name === 'console' && callee.property?.name === 'log') {
-                    tasks.push({
-                        id: Math.random().toString(36),
+                const taskMap = {
+                    log: callee.object?.name === 'console' && calleePropertyName === 'log' ? {
                         type: 'SYNC',
                         name: `console.log(${node.expression.arguments[0]?.value || ''})`,
                         metadata: { val: node.expression.arguments[0]?.value }
-                    });
-                }
-
-                // Detect setTimeout
-                if (callee.name === 'setTimeout') {
-                    tasks.push({
-                        id: Math.random().toString(36),
+                    } : null,
+                    setTimeout: calleeName === 'setTimeout' ? {
                         type: 'MACRO_TASK',
                         name: 'setTimeout callback',
                         metadata: { delay: node.expression.arguments[1]?.value || 0 }
-                    });
-                }
-
-                // Detect Promise.resolve().then()
-                if (callee.property?.name === 'then') {
-                    tasks.push({
-                        id: Math.random().toString(36),
+                    } : null,
+                    setInterval: calleeName === 'setInterval' ? {
+                        type: 'MACRO_TASK',
+                        name: 'setInterval callback',
+                        metadata: { interval: node.expression.arguments[1]?.value || 0 }
+                    } : null,
+                    then: calleePropertyName === 'then' ? {
                         type: 'MICRO_TASK',
                         name: 'Promise.then()',
-                    });
-                }
+                    } : null,
+                    catch: calleePropertyName === 'catch' ? {
+                        type: 'MICRO_TASK',
+                        name: 'Promise.catch()',
+                    } : null
+                };
+
+                Object.values(taskMap).forEach((taskConfig) => {
+                    if (taskConfig) {
+                        tasks.push({
+                            id: Math.random().toString(36),
+                            ...taskConfig
+                        });
+                    }
+                });
             }
         });
         return tasks;
