@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { parseCodeToTasks } from '../engine/parser';
-import { runSimulation, step } from './handlers/global_handlers.js';
+import { runSimulation, step, reset } from './handlers/global_handlers.js';
 
 // Notice the (set, get) here - this is crucial
 const useStore = create((set, get) => ({
@@ -28,9 +28,11 @@ const useStore = create((set, get) => ({
 
     resetLogs: () => set({ logs: [] }),
 
+    runSimulation: (...args) => runSimulation(set, get, ...args),
+    
     step: (...args) => step(set, get, ...args),
-
-    runSimulation: (...args) => runSimulation(set, get, ...args)
+    
+    reset: (...args) => reset(set, get, ...args),
 }));
 
 export default useStore;
