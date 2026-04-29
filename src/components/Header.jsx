@@ -6,7 +6,7 @@ import useStore from '../store/useStore';
 
 function Header() {
 
-    const { runSimulation, step } = useStore();
+    const { runSimulation, step, reset } = useStore();
 
     return (
         <div className='header-wrapper'>
@@ -18,7 +18,7 @@ function Header() {
             <div className="actions">
                 <button className="btn btn-primary" onClick={runSimulation}> <PlayCircleOutlined /> Run </button>
                 <button className="btn btn-success" onClick={step}> <StepForwardOutlined />Step</button>
-                <button className="btn btn-secondary"> < UndoOutlined />Reset</button>
+                <button className="btn btn-secondary" onClick={reset}> < UndoOutlined />Reset</button> 
             </div>
         </div>
     )

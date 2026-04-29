@@ -78,7 +78,20 @@ const step = (set, get) => {
     addLog("Execution Finished.", "SYNC");
 }
 
+const reset = (set, get) => {
+    set({
+        callStack: [],
+        webApi: [],
+        microtaskQueue: [],
+        taskQueue: [],
+        logs: [],
+        isExecuting: false,
+        isPaused: true
+    });
+}
+
 export {
     runSimulation,
-    step
+    step,
+    reset
 }
