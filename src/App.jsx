@@ -17,7 +17,9 @@ import useStore from './store/useStore';
 function App() {
 
   const isDarkModeEnabled = useStore((state) => state.isDarkModeEnabled);
+  
   const currentYear = new Date().getFullYear();
+
   const appTheme = {
     algorithm: isDarkModeEnabled ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
     token: {
@@ -65,6 +67,13 @@ function App() {
         </div>
         <footer className="app-footer">
           <span>Copyright © {currentYear} Smrutiranjan Patra</span>
+          <a
+            href="https://github.com/Smrutiranjan-Patra/js-visualizer"
+            target="_blank"
+            rel="noreferrer"
+          >
+            View on GitHub
+          </a>
         </footer>
       </div>
     </ConfigProvider>
