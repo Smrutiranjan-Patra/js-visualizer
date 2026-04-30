@@ -67,13 +67,6 @@ function App() {
         </div>
         <footer className="app-footer">
           <span>Copyright © {currentYear} Smrutiranjan Patra</span>
-          <a
-            href="https://github.com/Smrutiranjan-Patra/js-visualizer"
-            target="_blank"
-            rel="noreferrer"
-          >
-            View on GitHub
-          </a>
         </footer>
       </div>
     </ConfigProvider>
