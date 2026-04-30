@@ -1,5 +1,35 @@
 import { parseCodeToTasks } from "../../engine/parser.js";
 
+const setCode = (set, newCode) => {
+    set({ code: newCode });
+}
+
+const toggleTheme = (set) => {
+    set((state) => {
+        const isDarkModeEnabled = !state.isDarkModeEnabled;
+
+        if (typeof window !== 'undefined') {
+            window.localStorage.setItem('theme', isDarkModeEnabled ? 'dark' : 'light');
+        }
+
+        return { isDarkModeEnabled };
+    });
+}
+
+const addLog = (set, message, type) => {
+    set((state) => ({
+        logs: [...state.logs, {
+            message,
+            type,
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+        }]
+    }));
+}
+
+const resetLogs = (set) => {
+    set({ logs: [] });
+}
+
 const runSimulation = (set, get) => {
     const { code } = get();
     const parsedTasks = parseCodeToTasks(code);
@@ -11,7 +41,9 @@ const runSimulation = (set, get) => {
         microtaskQueue: [],
         taskQueue: [],
         logs: [],
-        isExecuting: true
+        isExecuting: true,
+        isAutoRunning: false,
+        isPaused: true
     });
 }
 
@@ -74,7 +106,7 @@ const step = (set, get) => {
     }
 
     // 5. Everything Finished
-    set({ isExecuting: false });
+    set({ isExecuting: false, isAutoRunning: false, isPaused: true });
     addLog("Execution Finished.", "SYNC");
 }
 
@@ -86,12 +118,46 @@ const reset = (set) => {
         taskQueue: [],
         logs: [],
         isExecuting: false,
-        isPaused: true
+        isPaused: true,
+        isAutoRunning: false
     });
 }
 
+const getInitialDarkMode = () => {
+    if (typeof window === 'undefined') {
+        return true;
+    }
+
+    const savedTheme = window.localStorage.getItem('theme');
+
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+        return savedTheme === 'dark';
+    }
+
+    return window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? true;
+};
+
+const startAutoRun = (set, get) => {
+    if (!get().isExecuting) {
+        runSimulation(set, get);
+    }
+
+    set({ isAutoRunning: true, isPaused: false });
+}
+
+const stopAutoRun = (set) => {
+    set({ isAutoRunning: false, isPaused: true });
+}
+
 export {
+    setCode,
+    toggleTheme,
+    addLog,
+    resetLogs,
     runSimulation,
     step,
-    reset
+    reset,
+    getInitialDarkMode,
+    startAutoRun,
+    stopAutoRun
 }
