@@ -52,13 +52,13 @@ function Header() {
             </div>
 
             <div className="actions">
-                <button className="btn btn-primary" onClick={runSimulation}> <PlayCircleOutlined /> Run </button>
+                <button className="btn btn-primary" onClick={runSimulation}> <PlayCircleOutlined /> Prepare </button>
                 <button className="btn btn-auto" onClick={handleAutoRun}>
                     {isAutoRunning ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
-                    {isAutoRunning ? 'Pause' : 'Auto Run'}
+                    {isAutoRunning ? 'Pause Playback' : 'Play Timeline'}
                 </button>
-                <button className="btn btn-success" onClick={step}> <StepForwardOutlined />Step</button>
-                <button className="btn btn-secondary" onClick={reset}> < UndoOutlined />Reset</button>
+                <button className="btn btn-success" onClick={step}> <StepForwardOutlined />Next Step</button>
+                <button className="btn btn-secondary" onClick={reset}> < UndoOutlined />Start Over</button>
             </div>
         </div>
     )
