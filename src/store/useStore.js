@@ -5,6 +5,7 @@ import {
     reset,
     resetLogs,
     runSimulation,
+    setAutoRunSpeed,
     setCode,
     startAutoRun,
     step,
@@ -21,14 +22,18 @@ const useStore = create((set, get) => ({
     taskQueue: [],
     logs: [], // Using 'logs' to match your runSimulation logic
     code: '',
+    activeLine: null,
     isExecuting: false,
     isPaused: true,
     isAutoRunning: false,
+    autoRunSpeed: 700,
     isDarkModeEnabled: getInitialDarkMode(),
 
     // --- ACTIONS ---
 
     setCode: (...args) => setCode(set, ...args),
+
+    setAutoRunSpeed: (...args) => setAutoRunSpeed(set, ...args),
 
     toggleTheme: (...args) => toggleTheme(set, ...args),
 

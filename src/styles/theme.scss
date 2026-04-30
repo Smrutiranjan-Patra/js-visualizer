@@ -187,3 +187,16 @@ body.light-mode {
   max-width: 260px;
   line-height: 1.5;
 }
+
+.active-execution-line {
+  background: var(--color-primary-bg);
+  border-left: 3px solid var(--color-primary);
+}
+
+.active-execution-glyph {
+  background: var(--color-primary);
+  border-radius: 50%;
+  margin-left: 5px;
+  width: 8px !important;
+  height: 8px !important;
+}

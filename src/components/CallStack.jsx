@@ -20,7 +20,7 @@ const CallStack = () => {
     return (
         <div className="call-stack">
             <div className="panel-header">
-                <span>Call Stack</span>
+                <span>Call Stack ({callStack.length})</span>
                 <Popover content={callStackInfo} title="Call Stack">
                     <button className="panel-info-button" type="button" aria-label="Call Stack info">
                         <InfoCircleOutlined className="panel-info-icon" />

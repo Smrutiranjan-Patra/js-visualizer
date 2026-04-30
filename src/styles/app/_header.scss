@@ -61,6 +61,35 @@
   gap: 1em;
 }
 
+.speed-control {
+  align-items: center;
+  color: var(--text-muted);
+  display: inline-flex;
+  font-size: 10px;
+  font-weight: 800;
+  gap: 8px;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.speed-control select {
+  appearance: none;
+  background: var(--bg-card-muted);
+  border: 1px solid var(--border-ui);
+  border-radius: 6px;
+  color: var(--text-main);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  outline: none;
+  padding: 8px 28px 8px 10px;
+}
+
+.speed-control select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-bg);
+}
+
 .header-left {
   display: flex;
   align-items: center;

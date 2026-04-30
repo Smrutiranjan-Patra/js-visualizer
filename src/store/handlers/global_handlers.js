@@ -1,7 +1,11 @@
 import { parseCodeToTasks } from "../../engine/parser.js";
 
 const setCode = (set, newCode) => {
-    set({ code: newCode });
+    set({ code: newCode, activeLine: null });
+}
+
+const setAutoRunSpeed = (set, speed) => {
+    set({ autoRunSpeed: Number(speed) });
 }
 
 const toggleTheme = (set) => {
@@ -33,17 +37,19 @@ const resetLogs = (set) => {
 const runSimulation = (set, get) => {
     const { code } = get();
     const parsedTasks = parseCodeToTasks(code);
+    const callStack = parsedTasks.filter(t => t.type === 'SYNC').reverse();
 
     set({
         // Initialize the simulation state
-        callStack: parsedTasks.filter(t => t.type === 'SYNC').reverse(),
+        callStack,
         webApi: parsedTasks.filter(t => t.type !== 'SYNC'),
         microtaskQueue: [],
         taskQueue: [],
         logs: [],
         isExecuting: true,
         isAutoRunning: false,
-        isPaused: true
+        isPaused: true,
+        activeLine: callStack.at(-1)?.line ?? parsedTasks[0]?.line ?? null
     });
 }
 
@@ -59,7 +65,7 @@ const step = (set, get) => {
             addLog(task.metadata?.val || 'undefined', 'SYNC');
         }
 
-        set({ callStack: newStack });
+        set({ callStack: newStack, activeLine: newStack.at(-1)?.line ?? null });
         return;
     }
 
@@ -72,12 +78,14 @@ const step = (set, get) => {
         if (nextAsync.type === 'MICRO_TASK') {
             set({
                 microtaskQueue: [...microtaskQueue, nextAsync],
-                webApi: remainingWeb
+                webApi: remainingWeb,
+                activeLine: nextAsync.line ?? null
             });
         } else {
             set({
                 taskQueue: [...taskQueue, nextAsync],
-                webApi: remainingWeb
+                webApi: remainingWeb,
+                activeLine: nextAsync.line ?? null
             });
         }
         return;
@@ -89,7 +97,8 @@ const step = (set, get) => {
         addLog(`Moving Microtask: ${nextMicro.name}`, 'MICRO');
         set({
             callStack: [nextMicro],
-            microtaskQueue: rest
+            microtaskQueue: rest,
+            activeLine: nextMicro.line ?? null
         });
         return;
     }
@@ -100,13 +109,14 @@ const step = (set, get) => {
         addLog(`Moving Task: ${nextTask.name}`, 'MACRO');
         set({
             callStack: [nextTask],
-            taskQueue: rest
+            taskQueue: rest,
+            activeLine: nextTask.line ?? null
         });
         return;
     }
 
     // 5. Everything Finished
-    set({ isExecuting: false, isAutoRunning: false, isPaused: true });
+    set({ isExecuting: false, isAutoRunning: false, isPaused: true, activeLine: null });
     addLog("Execution Finished.", "SYNC");
 }
 
@@ -119,7 +129,8 @@ const reset = (set) => {
         logs: [],
         isExecuting: false,
         isPaused: true,
-        isAutoRunning: false
+        isAutoRunning: false,
+        activeLine: null
     });
 }
 
@@ -151,6 +162,7 @@ const stopAutoRun = (set) => {
 
 export {
     setCode,
+    setAutoRunSpeed,
     toggleTheme,
     addLog,
     resetLogs,

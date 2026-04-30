@@ -12,6 +12,8 @@ function Header() {
         reset,
         isDarkModeEnabled,
         isAutoRunning,
+        autoRunSpeed,
+        setAutoRunSpeed,
         startAutoRun,
         stopAutoRun,
         toggleTheme,
@@ -24,10 +26,10 @@ function Header() {
 
         const autoRunTimer = window.setInterval(() => {
             useStore.getState().step();
-        }, 700);
+        }, autoRunSpeed);
 
         return () => window.clearInterval(autoRunTimer);
-    }, [isAutoRunning]);
+    }, [isAutoRunning, autoRunSpeed]);
 
     const handleAutoRun = () => {
         if (isAutoRunning) {
@@ -67,6 +69,17 @@ function Header() {
                     {isAutoRunning ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
                     {isAutoRunning ? 'Pause Playback' : 'Play Timeline'}
                 </button>
+                <label className="speed-control">
+                    <span>Speed</span>
+                    <select
+                        value={autoRunSpeed}
+                        onChange={(event) => setAutoRunSpeed(event.target.value)}
+                    >
+                        <option value={1200}>Slow</option>
+                        <option value={700}>Normal</option>
+                        <option value={350}>Fast</option>
+                    </select>
+                </label>
                 <button className="btn btn-success" onClick={step}> <StepForwardOutlined />Next Step</button>
                 <button className="btn btn-secondary" onClick={reset}> < UndoOutlined />Start Over</button>
             </div>

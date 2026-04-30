@@ -3,6 +3,7 @@ import { NodeIndexOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import EventLoop from './EventLoop';
 import WebApiBridge from './WebApi';
 import { Popover } from 'antd';
+import useStore from '../store/useStore';
 
 const engineBridgeInfo = (
     <div className="popover-description">
@@ -11,6 +12,8 @@ const engineBridgeInfo = (
 );
 
 const EngineBridge = () => {
+    const webApiCount = useStore((state) => state.webApi.length);
+
     return (
         <div className="engine-bridge-container">
             <div className="bridge-header">
@@ -23,7 +26,7 @@ const EngineBridge = () => {
                         </button>
                     </Popover>
                 </div>
-                <div className="bridge-meta">ASYNC PROCESSING</div>
+                <div className="bridge-meta">WEB API ({webApiCount})</div>
             </div>
 
             <div className="bridge-content">

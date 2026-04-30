@@ -28,7 +28,7 @@ const Queue = ({ type, title }) => {
     return (
         <div className={type === 'micro' ? "micro-task-queue" : "task-queue"}>
             <div className="panel-header">
-                <span>{title}</span>
+                <span>{title} ({tasks.length})</span>
                 <Popover content={queueInfo[type]} title={title}>
                     <button className="panel-info-button" type="button" aria-label={`${title} info`}>
                         <InfoCircleOutlined className="panel-info-icon" />
