@@ -169,3 +169,8 @@ body.light-mode {
 .ant-popover .ant-popover-arrow::after {
   background: var(--bg-popover) !important;
 }
+
+.popover-description {
+  max-width: 260px;
+  line-height: 1.5;
+}

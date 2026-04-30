@@ -6,6 +6,12 @@ import { Popover } from 'antd';
 
 const MotionDiv = motion.div;
 
+const callStackInfo = (
+    <div className="popover-description">
+        Holds synchronous functions that are currently being executed. The top item runs first, then leaves the stack when it finishes.
+    </div>
+);
+
 const CallStack = () => {
     // REMOVED the broken comparison function. 
     // This is now a clean reactive selector.
@@ -15,7 +21,7 @@ const CallStack = () => {
         <div className="call-stack">
             <div className="panel-header">
                 <span>Call Stack</span>
-                <Popover content={"This is sample content"} title="Call Stack">
+                <Popover content={callStackInfo} title="Call Stack">
                     <button className="panel-info-button" type="button" aria-label="Call Stack info">
                         <InfoCircleOutlined className="panel-info-icon" />
                     </button>
