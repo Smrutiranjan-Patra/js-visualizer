@@ -3,6 +3,7 @@
 @use "./app/engine" as *;
 @use "./app/queues" as *;
 @use "./app/webapi" as *;
+@use "./app/settings" as *;
 
 
 /* --- Event Loop Status Styling --- */

@@ -11,6 +11,7 @@ import Console from './components/Console.jsx';
 import CallStack from './components/CallStack.jsx';
 import Queue from './components/Queue.jsx';
 import EngineBridge from './components/EngineBridge.jsx';
+import Settings from './components/Settings.jsx';
 
 import useStore from './store/useStore';
 
@@ -65,6 +66,7 @@ function App() {
             <Queue type="macro" title="Task Queue" />
           </div>
         </div>
+        <Settings />
         <footer className="app-footer">
           <span>Copyright © {currentYear} Smrutiranjan Patra</span>
         </footer>
