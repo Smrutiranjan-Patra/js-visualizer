@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import logo from '../assets/logo.png'
-import { PauseCircleOutlined, PlayCircleOutlined, StepForwardOutlined, UndoOutlined, SunOutlined, MoonOutlined } from '@ant-design/icons';
+import { GithubOutlined, PauseCircleOutlined, PlayCircleOutlined, StepForwardOutlined, UndoOutlined, SunOutlined, MoonOutlined } from '@ant-design/icons';
 import useStore from '../store/useStore';
 
 
@@ -43,6 +43,16 @@ function Header() {
             <div className='logo-wrapper'>
                 <img src={logo} alt="Logo" className='logo' />
                 <p className='name'>JS VISUALIZER</p>
+                <a
+                    className="header-icon-link"
+                    href="https://github.com/Smrutiranjan-Patra/js-visualizer"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Open GitHub repository"
+                    title="Open GitHub repository"
+                >
+                    <GithubOutlined />
+                </a>
                 <button
                     className="theme-toggle"
                     type="button"

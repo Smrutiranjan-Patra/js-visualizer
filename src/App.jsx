@@ -17,6 +17,7 @@ import useStore from './store/useStore';
 function App() {
 
   const isDarkModeEnabled = useStore((state) => state.isDarkModeEnabled);
+  const currentYear = new Date().getFullYear();
   const appTheme = {
     algorithm: isDarkModeEnabled ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
     token: {
@@ -62,6 +63,9 @@ function App() {
             <Queue type="macro" title="Task Queue" />
           </div>
         </div>
+        <footer className="app-footer">
+          <span>Copyright © {currentYear} Smrutiranjan Patra</span>
+        </footer>
       </div>
     </ConfigProvider>
   )

@@ -15,6 +15,20 @@
   overflow: hidden;
 }
 
+.app-footer {
+  align-items: center;
+  background: var(--bg-header);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  display: flex;
+  flex-shrink: 0;
+  font-size: 12px;
+  gap: 12px;
+  justify-content: center;
+  min-height: 34px;
+  padding: 6px 20px;
+}
+
 /* LEFT COLUMN: THE SOURCE */
 .left-container {
   flex: 4;
