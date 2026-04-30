@@ -15,7 +15,7 @@ const EventLoop = () => {
                 transition={isExecuting ? { repeat: Infinity, duration: 3, ease: "linear" } : {}}
                 className="loop-icon-wrapper"
             >
-                <SyncOutlined style={{ fontSize: '40px', color: 'var(--color-primary)' }} />
+                <SyncOutlined className="loop-icon" />
             </MotionDiv>
             <div className="loop-status">
                 {isExecuting ? "ENGINE RUNNING" : "ENGINE IDLE"}
