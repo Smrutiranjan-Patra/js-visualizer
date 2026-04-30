@@ -15,7 +15,7 @@ const CodeEditor = () => {
             height="580px"
             defaultLanguage="javascript"
             theme="vs-dark"
-            defaultValue={``}
+            defaultValue={"// Experiment and visualize your code here"}
             onChange={handleEditorChange}
             options={{
                 minimap: { enabled: false },
