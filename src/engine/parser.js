@@ -3,7 +3,7 @@ import * as acorn from 'acorn';
 export const parseCodeToTasks = (code) => {
     const tasks = [];
     try {
-        const ast = acorn.parse(code, { ecmaVersion: 2020 });
+        const ast = acorn.parse(code, { ecmaVersion: 2020, locations: true });
 
         // Simple walker to find expression statements
         ast.body.forEach((node) => {
@@ -42,6 +42,7 @@ export const parseCodeToTasks = (code) => {
                     if (taskConfig) {
                         tasks.push({
                             id: Math.random().toString(36),
+                            line: node.loc.start.line,
                             ...taskConfig
                         });
                     }

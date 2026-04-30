@@ -1,17 +1,55 @@
 import { parseCodeToTasks } from "../../engine/parser.js";
 
+const setCode = (set, newCode) => {
+    set({ code: newCode, activeLine: null });
+}
+
+const setAutoRunSpeed = (set, speed) => {
+    set({ autoRunSpeed: Number(speed) });
+}
+
+const toggleTheme = (set) => {
+    set((state) => {
+        const isDarkModeEnabled = !state.isDarkModeEnabled;
+
+        if (typeof window !== 'undefined') {
+            window.localStorage.setItem('theme', isDarkModeEnabled ? 'dark' : 'light');
+        }
+
+        return { isDarkModeEnabled };
+    });
+}
+
+const addLog = (set, message, type) => {
+    set((state) => ({
+        logs: [...state.logs, {
+            message,
+            type,
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+        }]
+    }));
+}
+
+const resetLogs = (set) => {
+    set({ logs: [] });
+}
+
 const runSimulation = (set, get) => {
     const { code } = get();
     const parsedTasks = parseCodeToTasks(code);
+    const callStack = parsedTasks.filter(t => t.type === 'SYNC').reverse();
 
     set({
         // Initialize the simulation state
-        callStack: parsedTasks.filter(t => t.type === 'SYNC').reverse(),
+        callStack,
         webApi: parsedTasks.filter(t => t.type !== 'SYNC'),
         microtaskQueue: [],
         taskQueue: [],
         logs: [],
-        isExecuting: true
+        isExecuting: true,
+        isAutoRunning: false,
+        isPaused: true,
+        activeLine: callStack.at(-1)?.line ?? parsedTasks[0]?.line ?? null
     });
 }
 
@@ -27,7 +65,7 @@ const step = (set, get) => {
             addLog(task.metadata?.val || 'undefined', 'SYNC');
         }
 
-        set({ callStack: newStack });
+        set({ callStack: newStack, activeLine: newStack.at(-1)?.line ?? null });
         return;
     }
 
@@ -40,12 +78,14 @@ const step = (set, get) => {
         if (nextAsync.type === 'MICRO_TASK') {
             set({
                 microtaskQueue: [...microtaskQueue, nextAsync],
-                webApi: remainingWeb
+                webApi: remainingWeb,
+                activeLine: nextAsync.line ?? null
             });
         } else {
             set({
                 taskQueue: [...taskQueue, nextAsync],
-                webApi: remainingWeb
+                webApi: remainingWeb,
+                activeLine: nextAsync.line ?? null
             });
         }
         return;
@@ -57,7 +97,8 @@ const step = (set, get) => {
         addLog(`Moving Microtask: ${nextMicro.name}`, 'MICRO');
         set({
             callStack: [nextMicro],
-            microtaskQueue: rest
+            microtaskQueue: rest,
+            activeLine: nextMicro.line ?? null
         });
         return;
     }
@@ -68,17 +109,18 @@ const step = (set, get) => {
         addLog(`Moving Task: ${nextTask.name}`, 'MACRO');
         set({
             callStack: [nextTask],
-            taskQueue: rest
+            taskQueue: rest,
+            activeLine: nextTask.line ?? null
         });
         return;
     }
 
     // 5. Everything Finished
-    set({ isExecuting: false });
+    set({ isExecuting: false, isAutoRunning: false, isPaused: true, activeLine: null });
     addLog("Execution Finished.", "SYNC");
 }
 
-const reset = (set, get) => {
+const reset = (set) => {
     set({
         callStack: [],
         webApi: [],
@@ -86,12 +128,48 @@ const reset = (set, get) => {
         taskQueue: [],
         logs: [],
         isExecuting: false,
-        isPaused: true
+        isPaused: true,
+        isAutoRunning: false,
+        activeLine: null
     });
 }
 
+const getInitialDarkMode = () => {
+    if (typeof window === 'undefined') {
+        return true;
+    }
+
+    const savedTheme = window.localStorage.getItem('theme');
+
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+        return savedTheme === 'dark';
+    }
+
+    return window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? true;
+};
+
+const startAutoRun = (set, get) => {
+    if (!get().isExecuting) {
+        runSimulation(set, get);
+    }
+
+    set({ isAutoRunning: true, isPaused: false });
+}
+
+const stopAutoRun = (set) => {
+    set({ isAutoRunning: false, isPaused: true });
+}
+
 export {
+    setCode,
+    setAutoRunSpeed,
+    toggleTheme,
+    addLog,
+    resetLogs,
     runSimulation,
     step,
-    reset
+    reset,
+    getInitialDarkMode,
+    startAutoRun,
+    stopAutoRun
 }

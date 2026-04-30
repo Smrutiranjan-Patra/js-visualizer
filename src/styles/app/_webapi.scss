@@ -1,13 +1,29 @@
 .web-api-bridge {
   flex: 3;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-webapi);
   border: 1px dashed var(--border-subtle);
   border-radius: 6px;
-  padding: 8px;
-  font-size: 10px;
+  padding: 10px;
   color: var(--text-muted);
   display: flex;
+  align-items: stretch;
+  gap: 12px;
+  min-height: 0;
+  overflow: auto;
+  width: 100%;
+}
+
+.bridge-tasks {
   align-items: center;
-  gap: 10px;
-  overflow-x: auto;
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.empty-hint {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-style: italic;
 }

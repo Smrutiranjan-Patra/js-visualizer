@@ -1,6 +1,17 @@
 import { create } from 'zustand';
-import { parseCodeToTasks } from '../engine/parser';
-import { runSimulation, step, reset } from './handlers/global_handlers.js';
+import {
+    addLog,
+    getInitialDarkMode,
+    reset,
+    resetLogs,
+    runSimulation,
+    setAutoRunSpeed,
+    setCode,
+    startAutoRun,
+    step,
+    stopAutoRun,
+    toggleTheme
+} from './handlers/global_handlers.js';
 
 // Notice the (set, get) here - this is crucial
 const useStore = create((set, get) => ({
@@ -11,27 +22,33 @@ const useStore = create((set, get) => ({
     taskQueue: [],
     logs: [], // Using 'logs' to match your runSimulation logic
     code: '',
+    activeLine: null,
     isExecuting: false,
     isPaused: true,
+    isAutoRunning: false,
+    autoRunSpeed: 700,
+    isDarkModeEnabled: getInitialDarkMode(),
 
     // --- ACTIONS ---
 
-    setCode: (newCode) => set({ code: newCode }),
+    setCode: (...args) => setCode(set, ...args),
 
-    addLog: (message, type) => set((state) => ({
-        logs: [...state.logs, {
-            message,
-            type,
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-        }]
-    })),
+    setAutoRunSpeed: (...args) => setAutoRunSpeed(set, ...args),
 
-    resetLogs: () => set({ logs: [] }),
+    toggleTheme: (...args) => toggleTheme(set, ...args),
+
+    addLog: (...args) => addLog(set, ...args),
+
+    resetLogs: (...args) => resetLogs(set, ...args),
 
     runSimulation: (...args) => runSimulation(set, get, ...args),
-    
+
+    startAutoRun: (...args) => startAutoRun(set, get, ...args),
+
+    stopAutoRun: (...args) => stopAutoRun(set, ...args),
+
     step: (...args) => step(set, get, ...args),
-    
+
     reset: (...args) => reset(set, get, ...args),
 }));
 

@@ -3,6 +3,7 @@
 @use "./app/engine" as *;
 @use "./app/queues" as *;
 @use "./app/webapi" as *;
+@use "./app/settings" as *;
 
 
 /* --- Event Loop Status Styling --- */
@@ -24,14 +25,6 @@
 
 .event-loop-status-inline.running .loop-icon {
     animation: rotate 2s linear infinite;
-}
-
-.event-loop-visual{
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row-reverse;
-    align-items: center;
-    gap: 10px;
 }
 
 @keyframes rotate {

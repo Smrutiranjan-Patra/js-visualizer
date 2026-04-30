@@ -9,18 +9,9 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.call-stack::before,
-.micro-task-queue::before,
-.task-queue::before {
-  content: attr(class);
-  text-transform: uppercase;
-  font-size: 11px;
-  color: var(--text-muted);
-  font-weight: 800;
-  margin-bottom: 5px;
-  display: block;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .call-stack {
@@ -41,8 +32,59 @@
 .task-block {
   padding: 10px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-task);
+  border: 1px solid var(--border-ui);
+  color: var(--text-main);
   font-size: 13px;
   font-family: monospace;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.stack-inner,
+.queue-inner {
+  min-height: 0;
+  overflow: auto;
+}
+
+.stack-inner,
+.queue-inner {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel-header {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.panel-info-icon {
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.panel-info-icon:hover {
+  color: var(--color-primary);
+}
+
+.panel-info-button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  padding: 0;
 }
