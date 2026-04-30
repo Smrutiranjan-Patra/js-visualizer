@@ -41,8 +41,9 @@
 .task-block {
   padding: 10px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-task);
+  border: 1px solid var(--border-ui);
+  color: var(--text-main);
   font-size: 13px;
   font-family: monospace;
 }

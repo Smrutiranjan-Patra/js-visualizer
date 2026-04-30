@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // styles
 import './styles/App.scss';
@@ -15,7 +15,14 @@ import useStore from './store/useStore';
 
 function App() {
 
-  const store = useStore()
+  const isDarkModeEnabled = useStore((state) => state.isDarkModeEnabled);
+
+  useEffect(() => {
+    const theme = isDarkModeEnabled ? 'dark' : 'light';
+
+    document.documentElement.dataset.theme = theme;
+    document.body.classList.toggle('light-mode', !isDarkModeEnabled);
+  }, [isDarkModeEnabled]);
 
   return (
     <div className='wrapper'>

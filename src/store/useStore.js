@@ -1,6 +1,19 @@
 import { create } from 'zustand';
-import { parseCodeToTasks } from '../engine/parser';
 import { runSimulation, step, reset } from './handlers/global_handlers.js';
+
+const getInitialDarkMode = () => {
+    if (typeof window === 'undefined') {
+        return true;
+    }
+
+    const savedTheme = window.localStorage.getItem('theme');
+
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+        return savedTheme === 'dark';
+    }
+
+    return window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? true;
+};
 
 // Notice the (set, get) here - this is crucial
 const useStore = create((set, get) => ({
@@ -13,10 +26,21 @@ const useStore = create((set, get) => ({
     code: '',
     isExecuting: false,
     isPaused: true,
+    isDarkModeEnabled: getInitialDarkMode(),
 
     // --- ACTIONS ---
 
     setCode: (newCode) => set({ code: newCode }),
+
+    toggleTheme: () => set((state) => {
+        const isDarkModeEnabled = !state.isDarkModeEnabled;
+
+        if (typeof window !== 'undefined') {
+            window.localStorage.setItem('theme', isDarkModeEnabled ? 'dark' : 'light');
+        }
+
+        return { isDarkModeEnabled };
+    }),
 
     addLog: (message, type) => set((state) => ({
         logs: [...state.logs, {

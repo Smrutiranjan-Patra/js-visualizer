@@ -1,6 +1,6 @@
 .web-api-bridge {
   flex: 3;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-webapi);
   border: 1px dashed var(--border-subtle);
   border-radius: 6px;
   padding: 8px;

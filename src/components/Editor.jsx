@@ -1,10 +1,9 @@
 import React from 'react';
 import Editor from '@monaco-editor/react';
-import { Card } from 'antd';
 import useEventLoopStore from '../store/useStore';
 
 const CodeEditor = () => {
-    const { setCode } = useEventLoopStore();
+    const { setCode, isDarkModeEnabled } = useEventLoopStore();
 
     const handleEditorChange = (value) => {
         setCode(value); // Save the raw string to Zustand
@@ -14,7 +13,7 @@ const CodeEditor = () => {
         <Editor
             height="580px"
             defaultLanguage="javascript"
-            theme="vs-dark"
+            theme={isDarkModeEnabled ? 'vs-dark' : 'light'}
             defaultValue={"// Experiment and visualize your code here"}
             onChange={handleEditorChange}
             options={{
