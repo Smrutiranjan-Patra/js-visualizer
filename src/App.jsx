@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { ConfigProvider, theme as antdTheme } from 'antd';
 
 // styles
 import './styles/App.scss';
@@ -16,6 +17,23 @@ import useStore from './store/useStore';
 function App() {
 
   const isDarkModeEnabled = useStore((state) => state.isDarkModeEnabled);
+  const appTheme = {
+    algorithm: isDarkModeEnabled ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
+    token: {
+      colorPrimary: '#38bdf8',
+      colorBgElevated: isDarkModeEnabled ? '#111827' : '#ffffff',
+      colorText: isDarkModeEnabled ? '#cbd5e1' : '#475569',
+      colorTextHeading: isDarkModeEnabled ? '#f8fafc' : '#0f172a',
+      colorBorderSecondary: isDarkModeEnabled ? 'rgba(148, 163, 184, 0.24)' : 'rgba(100, 116, 139, 0.25)',
+    },
+    components: {
+      Popover: {
+        colorBgElevated: isDarkModeEnabled ? '#111827' : '#ffffff',
+        colorText: isDarkModeEnabled ? '#cbd5e1' : '#475569',
+        colorTextHeading: isDarkModeEnabled ? '#f8fafc' : '#0f172a',
+      },
+    },
+  };
 
   useEffect(() => {
     const theme = isDarkModeEnabled ? 'dark' : 'light';
@@ -25,25 +43,27 @@ function App() {
   }, [isDarkModeEnabled]);
 
   return (
-    <div className='wrapper'>
-      <Header />
-      <div className="container">
-        <div className='left-container'>
-          <div className='code-editor'>
-            <CodeEditor />
+    <ConfigProvider theme={appTheme}>
+      <div className='wrapper'>
+        <Header />
+        <div className="container">
+          <div className='left-container'>
+            <div className='code-editor'>
+              <CodeEditor />
+            </div>
+            <div className="output-div">
+              <Console />
+            </div>
           </div>
-          <div className="output-div">
-            <Console />
+          <div className="right-container">
+            <CallStack />
+            <EngineBridge />
+            <Queue type="micro" title="Microtask Queue" />
+            <Queue type="macro" title="Task Queue" />
           </div>
-        </div>
-        <div className="right-container">
-          <CallStack />
-          <EngineBridge />
-          <Queue type="micro" title="Microtask Queue" />
-          <Queue type="macro" title="Task Queue" />
         </div>
       </div>
-    </div>
+    </ConfigProvider>
   )
 }
 

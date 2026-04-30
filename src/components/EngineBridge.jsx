@@ -1,7 +1,8 @@
 import React from 'react';
-import { ShareAltOutlined, NodeIndexOutlined } from '@ant-design/icons';
+import { NodeIndexOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import EventLoop from './EventLoop';
 import WebApiBridge from './WebApi';
+import { Popover } from 'antd';
 
 const EngineBridge = () => {
     return (
@@ -10,6 +11,11 @@ const EngineBridge = () => {
                 <div className="header-label">
                     <NodeIndexOutlined className="bridge-icon" />
                     <span>ENGINE BRIDGE</span>
+                    <Popover content={"This is sample content"} title="Engine Bridge">
+                        <button className="panel-info-button" type="button" aria-label="Engine Bridge info">
+                            <InfoCircleOutlined className="panel-info-icon" />
+                        </button>
+                    </Popover>
                 </div>
                 <div className="bridge-meta">ASYNC PROCESSING</div>
             </div>

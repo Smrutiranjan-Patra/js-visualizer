@@ -9,10 +9,13 @@
   --bg-task: rgba(255, 255, 255, 0.05);
   --bg-task-pill: #2d3748;
   --bg-webapi: rgba(255, 255, 255, 0.02);
+  --bg-popover: #111827;
   --border-color: #334155;
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --text-console: #4ade80;
+  --text-popover-title: #f8fafc;
+  --text-popover-content: #cbd5e1;
   --text-task-pill: #a0aec0;
 
   /* Task Colors */
@@ -57,6 +60,7 @@
   --bg-task: rgba(15, 23, 42, 0.04);
   --bg-task-pill: #e2e8f0;
   --bg-webapi: rgba(15, 23, 42, 0.025);
+  --bg-popover: #ffffff;
   --border-color: #cbd5e1;
   --border-subtle: rgba(148, 163, 184, 0.45);
   --border-ui: rgba(100, 116, 139, 0.25);
@@ -64,6 +68,8 @@
   --text-main: #0f172a;
   --text-muted: #64748b;
   --text-console: #15803d;
+  --text-popover-title: #0f172a;
+  --text-popover-content: #475569;
   --text-task-pill: #334155;
   --color-secondary: #475569;
   --color-secondary-bg: rgba(71, 85, 105, 0.1);
@@ -141,4 +147,25 @@ body.light-mode {
   color: var(--text-on-dark);
   border-color: var(--color-secondary);
   box-shadow: 0 0 15px rgba(148, 163, 184, 0.2);
+}
+
+.ant-popover .ant-popover-inner {
+  background: var(--bg-popover) !important;
+  border: 1px solid var(--border-ui);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+}
+
+.ant-popover .ant-popover-title {
+  color: var(--text-popover-title) !important;
+  border-bottom-color: var(--border-subtle);
+}
+
+.ant-popover .ant-popover-content,
+.ant-popover .ant-popover-inner-content {
+  color: var(--text-popover-content) !important;
+}
+
+.ant-popover .ant-popover-arrow::before,
+.ant-popover .ant-popover-arrow::after {
+  background: var(--bg-popover) !important;
 }

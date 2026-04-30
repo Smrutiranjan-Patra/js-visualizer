@@ -78,7 +78,7 @@ const step = (set, get) => {
     addLog("Execution Finished.", "SYNC");
 }
 
-const reset = (set, get) => {
+const reset = (set) => {
     set({
         callStack: [],
         webApi: [],

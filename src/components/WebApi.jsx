@@ -3,6 +3,8 @@ import useStore from '../store/useStore';
 import { CloudServerOutlined } from '@ant-design/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const MotionDiv = motion.div;
+
 const WebApiBridge = () => {
     const webApi = useStore((state) => state.webApi);
 
@@ -14,7 +16,7 @@ const WebApiBridge = () => {
             <div className="bridge-tasks">
                 <AnimatePresence>
                     {webApi.map((task) => (
-                        <motion.div
+                        <MotionDiv
                             key={task.id}
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -22,7 +24,7 @@ const WebApiBridge = () => {
                             className="bridge-task-pill"
                         >
                             {task.name}
-                        </motion.div>
+                        </MotionDiv>
                     ))}
                 </AnimatePresence>
                 {webApi.length === 0 && <span className="empty-hint">Waiting...</span>}

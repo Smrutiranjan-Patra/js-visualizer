@@ -1,6 +1,10 @@
 import React from 'react';
 import useStore from '../store/useStore';
 import { motion, AnimatePresence } from 'framer-motion';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import { Popover } from 'antd';
+
+const MotionDiv = motion.div;
 
 const CallStack = () => {
     // REMOVED the broken comparison function. 
@@ -9,9 +13,17 @@ const CallStack = () => {
 
     return (
         <div className="call-stack">
+            <div className="panel-header">
+                <span>Call Stack</span>
+                <Popover content={"This is sample content"} title="Call Stack">
+                    <button className="panel-info-button" type="button" aria-label="Call Stack info">
+                        <InfoCircleOutlined className="panel-info-icon" />
+                    </button>
+                </Popover>
+            </div>
             <AnimatePresence mode="popLayout">
                 {callStack.map((task) => (
-                    <motion.div
+                    <MotionDiv
                         key={task.id}
                         layout
                         initial={{ opacity: 0, y: 20, scale: 0.8 }}
@@ -20,7 +32,7 @@ const CallStack = () => {
                         className="task-block sync-block"
                     >
                         {task.name}
-                    </motion.div>
+                    </MotionDiv>
                 ))}
             </AnimatePresence>
         </div>
