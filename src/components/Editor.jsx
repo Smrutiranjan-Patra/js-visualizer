@@ -11,7 +11,7 @@ const CodeEditor = () => {
 
     return (
         <Editor
-            height="580px"
+            height="100%"
             defaultLanguage="javascript"
             theme={isDarkModeEnabled ? 'vs-dark' : 'light'}
             defaultValue={"// Experiment and visualize your code here"}

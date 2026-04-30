@@ -27,20 +27,22 @@ const CallStack = () => {
                     </button>
                 </Popover>
             </div>
-            <AnimatePresence mode="popLayout">
-                {callStack.map((task) => (
-                    <MotionDiv
-                        key={task.id}
-                        layout
-                        initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
-                        className="task-block sync-block"
-                    >
-                        {task.name}
-                    </MotionDiv>
-                ))}
-            </AnimatePresence>
+            <div className="stack-inner">
+                <AnimatePresence mode="popLayout">
+                    {callStack.map((task) => (
+                        <MotionDiv
+                            key={task.id}
+                            layout
+                            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
+                            className="task-block sync-block"
+                        >
+                            {task.name}
+                        </MotionDiv>
+                    ))}
+                </AnimatePresence>
+            </div>
         </div>
     );
 };
