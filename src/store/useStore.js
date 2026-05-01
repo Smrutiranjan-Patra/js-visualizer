@@ -27,6 +27,11 @@ const useStore = create((set, get) => ({
     isPaused: true,
     isAutoRunning: false,
     autoRunSpeed: 700,
+    runtime: {
+        variables: {},
+        clearedIntervals: new Set(),
+        nextIntervalId: 1
+    },
     isDarkModeEnabled: getInitialDarkMode(),
 
     // --- ACTIONS ---
