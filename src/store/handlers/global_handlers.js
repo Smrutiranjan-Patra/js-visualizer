@@ -49,27 +49,66 @@ const runSimulation = (set, get) => {
         isExecuting: true,
         isAutoRunning: false,
         isPaused: true,
-        activeLine: callStack.at(-1)?.line ?? parsedTasks[0]?.line ?? null
+        activeLine: callStack.at(-1)?.line ?? parsedTasks[0]?.line ?? null,
+        runtime: {
+            variables: {},
+            clearedIntervals: new Set(),
+            nextIntervalId: 1
+        }
     });
 }
 
 const step = (set, get) => {
-    const { callStack, microtaskQueue, taskQueue, webApi, addLog } = get();
+    const { callStack, microtaskQueue, taskQueue, webApi, addLog, runtime } = get();
 
     // 1. Process Call Stack (LIFO)
     if (callStack.length > 0) {
         const newStack = [...callStack];
         const task = newStack.pop();
+        const executionResult = task.execute ? task.execute(runtime) : {};
 
-        if (task.type === 'SYNC') {
-            addLog(task.metadata?.val || 'undefined', 'SYNC');
+        if (executionResult.message != null) {
+            addLog(executionResult.message, 'SYNC');
         }
 
-        set({ callStack: newStack, activeLine: newStack.at(-1)?.line ?? null });
+        const childTasks = [ ...(task.childTasks ?? []), ...(executionResult.childTasks ?? []) ];
+        const syncChildren = childTasks.filter((child) => child.type === 'SYNC');
+        const microChildren = childTasks.filter((child) => child.type === 'MICRO_TASK');
+        const macroChildren = childTasks.filter((child) => child.type === 'MACRO_TASK');
+
+        const updatedState = {
+            callStack: [...newStack, ...syncChildren.reverse()],
+            microtaskQueue: [...microtaskQueue, ...microChildren],
+            taskQueue: [...taskQueue, ...macroChildren],
+            activeLine: newStack.at(-1)?.line ?? syncChildren[0]?.line ?? null
+        };
+
+        if (task.repeating && task.intervalId && !runtime.clearedIntervals.has(task.intervalId)) {
+            updatedState.taskQueue = [...updatedState.taskQueue, task];
+        }
+
+        if (runtime.clearedIntervals.size > 0) {
+            updatedState.taskQueue = updatedState.taskQueue.filter((queuedTask) => {
+                return !queuedTask.repeating || !runtime.clearedIntervals.has(queuedTask.intervalId);
+            });
+        }
+
+        set(updatedState);
         return;
     }
 
-    // 2. If Stack is empty, Web APIs move to Queues (Simulation shortcut)
+    // 2. If Stack is empty, flush Microtasks first.
+    if (microtaskQueue.length > 0) {
+        const [nextMicro, ...rest] = microtaskQueue;
+        set({
+            callStack: [nextMicro],
+            microtaskQueue: rest,
+            activeLine: nextMicro.line ?? null
+        });
+        return;
+    }
+
+    // 3. If Stack is empty, Web APIs move to Queues (Simulation shortcut)
     // In a real browser, this happens via timers, but for step-by-step:
     if (webApi.length > 0) {
         const nextAsync = webApi[0];
@@ -91,22 +130,9 @@ const step = (set, get) => {
         return;
     }
 
-    // 3. If Stack is empty, check Microtask Queue (FIFO)
-    if (microtaskQueue.length > 0) {
-        const [nextMicro, ...rest] = microtaskQueue;
-        addLog(`Moving Microtask: ${nextMicro.name}`, 'MICRO');
-        set({
-            callStack: [nextMicro],
-            microtaskQueue: rest,
-            activeLine: nextMicro.line ?? null
-        });
-        return;
-    }
-
     // 4. If Microtasks are empty, check Task Queue (FIFO)
     if (taskQueue.length > 0) {
         const [nextTask, ...rest] = taskQueue;
-        addLog(`Moving Task: ${nextTask.name}`, 'MACRO');
         set({
             callStack: [nextTask],
             taskQueue: rest,
@@ -130,7 +156,12 @@ const reset = (set) => {
         isExecuting: false,
         isPaused: true,
         isAutoRunning: false,
-        activeLine: null
+        activeLine: null,
+        runtime: {
+            variables: {},
+            clearedIntervals: new Set(),
+            nextIntervalId: 1
+        }
     });
 }
 
